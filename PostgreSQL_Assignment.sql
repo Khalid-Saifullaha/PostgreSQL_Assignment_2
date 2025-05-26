@@ -12,7 +12,7 @@ CREATE TABLE species (
     common_name VARCHAR(100) NOT NULL,
     scientific_name VARCHAR(130) NOT NULL,
     discovery_date DATE NOT NULL,
-    conservation_status VARCHAR(50) 
+     conservation_status VARCHAR(50) CHECK (conservation_status IN ('Endangered', 'Vulnerable', 'Historic')) 
 );
 
 DROP TABLE rangers;
