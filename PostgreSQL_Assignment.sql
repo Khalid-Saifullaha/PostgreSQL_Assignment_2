@@ -12,8 +12,12 @@ CREATE TABLE species (
     common_name VARCHAR(100) NOT NULL,
     scientific_name VARCHAR(130) NOT NULL,
     discovery_date DATE NOT NULL,
-    conservation_status VARCHAR(50) CHECK (conservation_status IN ('Endangered', 'Vulnerable', 'Least Concern'))
+    conservation_status VARCHAR(50) 
 );
+
+DROP TABLE rangers;
+DROP TABLE species;
+DROP TABLE sightings;
 
 CREATE TABLE sightings (
     sighting_id SERIAL PRIMARY KEY,
@@ -48,8 +52,9 @@ INSERT INTO sightings (sighting_id, species_id, ranger_id, location, sighting_ti
 SELECT * FROM sightings;
 
 --1
-INSERT INTO rangers (name, region)
-VALUES ('Derek Fox', 'Coastal Plains');
+INSERT INTO rangers (ranger_id,name, region) 
+VALUES (4,'Derek Fox', 'Coastal Plains');
+
 
 --2
 SELECT COUNT(DISTINCT species_id) AS unique_species_count
@@ -90,7 +95,8 @@ LIMIT 2;
 --7
 UPDATE species
 SET conservation_status = 'Historic'
-WHERE discovery_date < '1800-01-01';
+WHERE EXTRACT(YEAR FROM discovery_date) < 1800;
+
 
 
 --8
@@ -110,8 +116,3 @@ WHERE ranger_id NOT IN (
     SELECT DISTINCT ranger_id FROM sightings
 );
 
-
-
-SELECT * FROM rangers;
-SELECT * FROM species;
-SELECT * FROM sightings;
